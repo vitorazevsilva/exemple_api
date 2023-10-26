@@ -1,0 +1,15 @@
+{
+  "name": "cd_api",
+  "version": "1.0.0",
+  "description": "\"API criada na UC de CD no Curso DWM do IPCA\"",
+  "main": "index.js",
+  "author": {
+    "name": "Vitor Hugo Azevedo Silva",
+    "email": "a22537@alunos.ipca.pt"
+  },
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
