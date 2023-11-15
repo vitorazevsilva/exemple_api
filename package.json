@@ -11,8 +11,12 @@
   "scripts": {
     "dev": "NODE_ENV=development node src/server.js",
     "start": "node src/server.js",
-    "test": "NODE_ENV=test jest",
-    "lint": "eslint src/** test/** --fix"
+    "test": "NODE_ENV=test jest --coverage --runInBand --forceExit",
+    "secure-mode": "NODE_ENV=test jest --watchAll --verbose=true",
+    "lint": "eslint src/** test/** --fix",
+    "db:on": "sudo docker start $(sudo docker ps -a -q)",
+    "db:off": "sudo docker stop $(sudo docker ps -a -q)",
+    "kill_port": "sudo fuser -k"
   },
   "license": "MIT",
   "private": true,
@@ -24,9 +28,12 @@
     "supertest": "^6.3.3"
   },
   "dependencies": {
+    "body-parser": "^1.20.2",
     "consign": "^0.1.6",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "knex": "^3.0.1",
+    "pg": "^8.11.3",
     "uuidv4": "^6.2.13",
     "winston": "^3.11.0"
   }

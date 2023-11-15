@@ -20,6 +20,6 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-    'no-console': false,
+    'no-console': "off",
   },
 };

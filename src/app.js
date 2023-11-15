@@ -1,11 +1,14 @@
 const app = require('express')();
-/* const knex = require("knex"); */
+const knex = require("knex");
 const cors = require('cors');
 const winston = require('winston');
 const consign = require('consign');
 const { uuid } = require('uuidv4');
+const knexfile = require("../knexfile");
 
 app.use(cors());
+
+app.db = knex(knexfile[process.env.NODE_ENV || "production"]);
 
 app.address = {
   host: process.env.HOST || '0.0.0.0',
@@ -31,6 +34,8 @@ app.logger = winston.createLogger({
 
 consign({ cwd: 'src', verbose: false })
   .include('./config/middlewares.js')
+  .include("./routes")
+  .include("./config/router.js")
   .into(app);
 
 // eslint-disable-next-line no-unused-vars
@@ -64,5 +69,7 @@ app.get('/', (req, res) => {
     },
   });
 });
+
+
 
 module.exports = app;
