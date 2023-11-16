@@ -16,6 +16,7 @@ module.exports = (app) => {
   router.post('/', async (req, res, next) => {
     try {
       const result = await app.services.user.save(req.body);
+      if (result.messageError) return res.status(400).json(result);
       res.status(201).json(result);
     } catch (err) {
       next(err);
