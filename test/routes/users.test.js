@@ -1,8 +1,8 @@
-const request = require('supertest')
+const request = require('supertest');
 
 const app = require('../../src/app');
 
-const mail = `${Date.now()}@temp.ipca.pt`
+const mail = `${Date.now()}@temp.ipca.pt`;
 
 describe('[USERS][GET]', () => {
   test('[USERS][1] - Listar Utilizadores', () => request(app)
@@ -19,7 +19,6 @@ describe('[USERS][POST]', () => {
     .send({ name: 'Vitor Silva', email: mail, password: 'myS3cr3tPasswd' })
     .then((res) => {
       expect(res.status).toBe(201);
-      expect(res.body.name).toBe("Vitor Silva")
-
+      expect(res.body.name).toBe('Vitor Silva');
     }));
 });
