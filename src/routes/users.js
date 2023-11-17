@@ -21,6 +21,7 @@ module.exports = (app) => {
     } catch (err) {
       next(err);
     }
+    return false;
   });
   return router;
 };
