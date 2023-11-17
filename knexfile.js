@@ -12,16 +12,16 @@ module.exports = {
       port: 6001,
       database: 'cd_api',
       user: 'myUser',
-      password: 'myPasswd'
+      password: 'myPasswd',
     },
     debug: false,
     pool: {
       min: 0,
-      max: 50
+      max: 50,
     },
     migrations: {
-      directory: 'src/migrates/test'
-    }
+      directory: 'src/migrates/test',
+    },
   },
   development: {
     client: 'postgresql',
@@ -30,16 +30,16 @@ module.exports = {
       port: 6001,
       database: 'cd_api',
       user: 'myUser',
-      password: 'myPasswd'
+      password: 'myPasswd',
     },
     debug: false,
     pool: {
       min: 0,
-      max: 50
+      max: 50,
     },
     migrations: {
-      directory: 'src/migrates/test'
-    }
+      directory: 'src/migrates/test',
+    },
   },
 
 };

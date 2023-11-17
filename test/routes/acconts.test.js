@@ -85,7 +85,7 @@ describe('[ACCOUNTS][DELETE]', () => {
     }));
 
   test('[2] - Apagar conta inexistente ', async () => request(app)
-    .delete(`${MAIN_ROUTE}/${2}`)
+    .delete(`${MAIN_ROUTE}/${999999999}`)
     .send()
     .then((res) => {
       expect(res.status).toBe(400);

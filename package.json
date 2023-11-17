@@ -14,8 +14,8 @@
     "test": "NODE_ENV=test jest --coverage --runInBand --forceExit",
     "secure-mode": "NODE_ENV=test jest --watchAll --verbose=true",
     "lint": "eslint src/** test/** --fix",
-    "db:on": "sudo docker start $(sudo docker ps -a -q)",
-    "db:off": "sudo docker stop $(sudo docker ps -a -q)",
+    "db:on": "sudo docker start cd_api_db",
+    "db:off": "sudo docker stop cd_api_db",
     "kill_port": "sudo fuser -k"
   },
   "license": "MIT",
