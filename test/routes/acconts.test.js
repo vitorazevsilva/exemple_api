@@ -23,7 +23,7 @@ beforeAll(async () => {
 });
 
 describe('[ACCOUNTS][POST]', () => {
-  test('[ACCOUNTS][1] - Inserir conta', async () => {
+  test('[1] - Inserir conta', async () => {
     const fakeData = { name: `Account #${Date.now()}`, user_id: user.id };
     return request(app)
       .post(MAIN_ROUTE)
@@ -33,21 +33,62 @@ describe('[ACCOUNTS][POST]', () => {
         expect(res.body.name).toBe(fakeData.name);
       });
   });
+
+  test('[2] - Inserir conta sem nome', async () => {
+    const fakeData = { user_id: user.id };
+    return request(app)
+      .post(MAIN_ROUTE)
+      .send(fakeData)
+      .then((res) => {
+        expect(res.status).toBe(400);
+        expect(res.body.messageError).toBe('Nome é um atributo obrigatório!');
+      });
+  });
 });
 
 describe('[ACCOUNTS][GET]', () => {
-  test('[ACCOUNTS][2] - Listar contas', async () => request(app)
+  test('[1] - Listar contas', async () => request(app)
     .get(MAIN_ROUTE)
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.length).toBeGreaterThan(0);
     }));
 
-  test('[ACCOUNTS][3] - Lista conta por id', async () => request(app)
+  test('[2] - Lista conta por id', async () => request(app)
     .get(`${MAIN_ROUTE}/${account.id}`)
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.name).toBe(account.name);
       expect(res.body.user_id).toBe(account.user_id);
+    }));
+});
+
+describe('[ACCOUNTS][PUT]', () => {
+  test('[1] - Atualizar conta', async () => {
+    const fakeData = { name: `Account #${Date.now()}`, user_id: user.id };
+    return request(app)
+      .put(`${MAIN_ROUTE}/${account.id}`)
+      .send(fakeData)
+      .then((res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.name).toBe(fakeData.name);
+      });
+  });
+});
+
+describe('[ACCOUNTS][DELETE]', () => {
+  test('[1] - Apagar conta', async () => request(app)
+    .delete(`${MAIN_ROUTE}/${account.id}`)
+    .send()
+    .then((res) => {
+      expect(res.status).toBe(204);
+    }));
+
+  test('[2] - Apagar conta inexistente ', async () => request(app)
+    .delete(`${MAIN_ROUTE}/${2}`)
+    .send()
+    .then((res) => {
+      expect(res.status).toBe(400);
+      expect(res.body.messageError).toBe('Conta invalida!');
     }));
 });

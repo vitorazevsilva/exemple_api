@@ -18,7 +18,7 @@ beforeAll(async () => {
 });
 
 describe('[USERS][GET]', () => {
-  test('[USERS][1] - Listar os Utilizadores', () => request(app)
+  test('[1] - Listar os Utilizadores', () => request(app)
     .get(MAIN_ROUTE)
     .then((res) => {
       expect(res.status).toBe(200);
@@ -27,7 +27,7 @@ describe('[USERS][GET]', () => {
 });
 
 describe('[USERS][POST]', () => {
-  test('[USERS][2] - Inserir Utilizadores', () => {
+  test('[1] - Inserir Utilizadores', () => {
     const fakeData = {
       name: faker.person.fullName(),
       email: faker.internet.email(),
@@ -42,7 +42,7 @@ describe('[USERS][POST]', () => {
       });
   });
 
-  test('[USERS][3] - Inserir Utilizadores sem nome', () => {
+  test('[2] - Inserir Utilizadores sem nome', () => {
     const fakeData = {
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -56,7 +56,7 @@ describe('[USERS][POST]', () => {
       });
   });
 
-  test('[USERS][4] - Inserir Utilizadores sem email', () => {
+  test('[3] - Inserir Utilizadores sem email', () => {
     const fakeData = {
       name: faker.person.fullName(),
       password: faker.internet.password(),
@@ -70,7 +70,7 @@ describe('[USERS][POST]', () => {
       });
   });
 
-  test('[USERS][5] - Inserir Utilizadores sem password', () => {
+  test('[4] - Inserir Utilizadores sem password', () => {
     const fakeData = {
       name: faker.person.fullName(),
       email: faker.internet.email(),
@@ -84,7 +84,7 @@ describe('[USERS][POST]', () => {
       });
   });
 
-  test('[USERS][6] - Inserir Utilizadores com email duplicado', () => {
+  test('[5] - Inserir Utilizadores com email duplicado', () => {
     const fakeData = {
       name: faker.person.fullName(),
       email: user.email,
