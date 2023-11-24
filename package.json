@@ -2,14 +2,14 @@
   "name": "cd_api",
   "version": "1.0.0",
   "description": "\"API criada na UC de CD no Curso DWM do IPCA\"",
-  "main": "index.js",
+  "main": "src/server.js",
   "type": "commonjs",
   "author": {
     "name": "Vitor Hugo Azevedo Silva",
     "email": "a22537@alunos.ipca.pt"
   },
   "scripts": {
-    "dev": "NODE_ENV=development node src/server.js",
+    "dev": "nodemon",
     "start": "node src/server.js",
     "test": "NODE_ENV=test jest --coverage --runInBand --forceExit",
     "secure-mode": "NODE_ENV=test jest --watchAll --verbose=true",
@@ -20,12 +20,31 @@
   },
   "license": "MIT",
   "private": true,
+  "nodemonConfig": {
+    "restartable": "rs",
+    "verbose": true,
+    "ignore": [
+      "coverage",
+      "logs",
+      "node_modules",
+      ".vscode",
+      "test",
+      ".eslintrc.js",
+      ".gitignore",
+      "package.json",
+      "yarn.lock"
+    ],
+    "env": {
+      "NODE_ENV": "development"
+    }
+  },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.2",
     "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
     "supertest": "^6.3.3"
   },
   "dependencies": {
