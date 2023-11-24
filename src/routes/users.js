@@ -5,9 +5,9 @@ module.exports = (app) => {
 
   router.get('/', async (req, res, next) => {
     try {
-      app.services.user.findAll().then((result) => {
-        res.status(200).json(result);
-      });
+      app.services.user.findAll()
+        .then((result) => res.status(200).json(result))
+        .catch((err) => next(err));
     } catch (err) {
       next(err);
     }
@@ -16,9 +16,9 @@ module.exports = (app) => {
   router.post('/', async (req, res, next) => {
     try {
       const result = await app.services.user.save(req.body);
-      if (result.messageError) return res.status(400).json(result);
       res.status(201).json(result);
     } catch (err) {
+      // res.status(400).json({ error: err.message });
       next(err);
     }
     return false;

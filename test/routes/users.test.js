@@ -52,7 +52,7 @@ describe('[USERS][POST]', () => {
       .send(fakeData)
       .then((res) => {
         expect(res.status).toBe(400);
-        expect(res.body.messageError).toBe('Nome é um atributo obrigatório!');
+        expect(res.body.error).toBe('Nome é um atributo obrigatório!');
       });
   });
 
@@ -66,7 +66,7 @@ describe('[USERS][POST]', () => {
       .send(fakeData)
       .then((res) => {
         expect(res.status).toBe(400);
-        expect(res.body.messageError).toBe('Email é um atributo obrigatório!');
+        expect(res.body.error).toBe('Email é um atributo obrigatório!');
       });
   });
 
@@ -80,7 +80,7 @@ describe('[USERS][POST]', () => {
       .send(fakeData)
       .then((res) => {
         expect(res.status).toBe(400);
-        expect(res.body.messageError).toBe('Password é um atributo obrigatório!');
+        expect(res.body.error).toBe('Password é um atributo obrigatório!');
       });
   });
 
@@ -95,7 +95,7 @@ describe('[USERS][POST]', () => {
       .send(fakeData)
       .then((res) => {
         expect(res.status).toBe(400);
-        expect(res.body.messageError).toBe('Email duplicado na DB!');
+        expect(res.body.error).toBe('Email duplicado na DB!');
       });
   });
 });

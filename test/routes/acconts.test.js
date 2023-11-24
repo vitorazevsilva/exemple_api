@@ -41,7 +41,7 @@ describe('[ACCOUNTS][POST]', () => {
       .send(fakeData)
       .then((res) => {
         expect(res.status).toBe(400);
-        expect(res.body.messageError).toBe('Nome é um atributo obrigatório!');
+        expect(res.body.error).toBe('Nome é um atributo obrigatório!');
       });
   });
 });
@@ -89,6 +89,6 @@ describe('[ACCOUNTS][DELETE]', () => {
     .send()
     .then((res) => {
       expect(res.status).toBe(400);
-      expect(res.body.messageError).toBe('Conta invalida!');
+      expect(res.body.error).toBe('Conta invalida!');
     }));
 });

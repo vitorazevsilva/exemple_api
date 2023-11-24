@@ -8,4 +8,11 @@ describe('[APP][GET]', () => {
     .then((res) => {
       expect(res.status).toBe(200);
     }));
+
+  test('[APP][2] - Page Not Found', () => request(app)
+    .get('/notfound')
+    .then((res) => {
+      expect(res.status).toBe(404);
+      expect(res.body.error).toBe('Pedido Desconhecido!');
+    }));
 });

@@ -40,16 +40,6 @@ consign({ cwd: 'src', verbose: false })
   .include('./config/router.js')
   .into(app);
 
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  const { name, message, stack } = err;
-  if (name !== undefined) {
-    const id = uuid();
-    app.logger.error(`${id}:${name}\n${message}\n${stack}`);
-    res.status(500).json({ id, error: 'System Error!' });
-  }
-});
-
 app.get('/', (req, res) => {
   const date = new Date();
   res.status(200).json({
@@ -72,4 +62,16 @@ app.get('/', (req, res) => {
   });
 });
 
+app.use(({ name, message, stack }, req, res, next) => {
+  console.log('%capp.js line:66 name, message, stack', 'color: #007acc;', name, message, stack);
+  if (name === 'validationError') res.status(400).json({ error: message });
+  else {
+    const id = uuid();
+    app.logger.error(`${id}:${name}\n${message}\n${stack}`);
+    res.status(500).json({ id, error: 'System Error!' });
+  }
+  next();
+});
+
+app.use((req, res) => res.status(404).json({ error: 'Pedido Desconhecido!' }));
 module.exports = app;
