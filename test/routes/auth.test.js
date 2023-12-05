@@ -26,4 +26,20 @@ describe('[AUTHS][POST]', () => {
       expect(res.body).toHaveProperty('token');
       expect(res.body.token).not.toBeNull();
     }));
+
+  test('[2] - Tentativa de autenticação errada (password)', () => request(app)
+    .post(`${MAIN_ROUTE}/signin`)
+    .send({ email: user.email, password: 'myPasswd' })
+    .then((res) => {
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('Autenticação invalida!');
+    }));
+
+  test('[3] - Tentativa de autenticação errada (email)', () => request(app)
+    .post(`${MAIN_ROUTE}/signin`)
+    .send({ email: 'a22537@alunos.ipca.pt', password: userFakeData.password })
+    .then((res) => {
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('Autenticação invalida!');
+    }));
 });
