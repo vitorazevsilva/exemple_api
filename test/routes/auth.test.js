@@ -42,4 +42,21 @@ describe('[AUTHS][POST]', () => {
       expect(res.status).toBe(400);
       expect(res.body.error).toBe('Autenticação invalida!');
     }));
+
+  test('[4] - Criar utilizador', () => {
+    const userFake = {
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    };
+    return request(app)
+      .post(`${MAIN_ROUTE}/signup`)
+      .send(userFake)
+      .then((res) => {
+        expect(res.status).toBe(201);
+        expect(res.body.name).toBe(userFake.name);
+        expect(res.body).toHaveProperty('email');
+        expect(res.body).not.toHaveProperty('password');
+      });
+  });
 });

@@ -14,7 +14,6 @@ module.exports = (app) => {
       const result = await app.services.user.save(req.body);
       res.status(201).json(result);
     } catch (err) {
-      // res.status(400).json({ error: err.message });
       next(err);
     }
     return false;
