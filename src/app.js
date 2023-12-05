@@ -63,7 +63,6 @@ app.get('/', (req, res) => {
 });
 
 app.use(({ name, message, stack }, req, res, next) => {
-  console.log('%capp.js line:66 name, message, stack', 'color: #007acc;', name, message, stack);
   if (name === 'validationError') res.status(400).json({ error: message });
   else {
     const id = uuid();

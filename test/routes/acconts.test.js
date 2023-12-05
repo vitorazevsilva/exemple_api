@@ -7,9 +7,9 @@ const MAIN_ROUTE = '/accounts';
 
 let user;
 let account;
-
+let userFakeData;
 beforeAll(async () => {
-  const userFakeData = {
+  userFakeData = {
     name: faker.person.fullName(),
     email: faker.internet.email(),
     password: faker.internet.password(),

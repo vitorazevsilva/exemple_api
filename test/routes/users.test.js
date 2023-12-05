@@ -6,9 +6,9 @@ const app = require('../../src/app');
 const MAIN_ROUTE = '/users';
 
 let user;
-
+let userFakeData;
 beforeAll(async () => {
-  const userFakeData = {
+  userFakeData = {
     name: faker.person.fullName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
@@ -39,6 +39,7 @@ describe('[USERS][POST]', () => {
       .then((res) => {
         expect(res.status).toBe(201);
         expect(res.body.name).toBe(fakeData.name);
+        expect(res.body).not.toHaveProperty('password');
       });
   });
 
@@ -96,6 +97,24 @@ describe('[USERS][POST]', () => {
       .then((res) => {
         expect(res.status).toBe(400);
         expect(res.body.error).toBe('Email duplicado na DB!');
+      });
+  });
+
+  test('[5] - Guardar a palavra-passe encriptada', () => {
+    const fakeData = {
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    };
+    return request(app)
+      .post(MAIN_ROUTE)
+      .send(fakeData)
+      .then(async (res) => {
+        expect(res.status).toBe(201);
+        const { id } = res.body;
+        const userDB = await app.services.user.findOne({ id });
+        expect(userDB[0].password).not.toBeUndefined();
+        expect(userDB[0].password).not.toBe(fakeData.password);
       });
   });
 });
