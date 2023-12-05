@@ -1,9 +1,13 @@
-// const express = require('express');
+const secureRouter = require('express').Router();
 
 module.exports = (app) => {
-  // const secureRouter = express.Router();
-  app.use('/users', app.routes.users);
-  app.use('/accounts', app.routes.accounts);
+  /* NO SECURE */
   app.use('/auths', app.routes.auths);
-  // app.use("/admin", app.config.passport.authenticate(), secureRouter);
+
+  /* SECURE */
+  secureRouter.use('/', app.routes.secures);
+  secureRouter.use('/users', app.routes.users);
+  secureRouter.use('/accounts', app.routes.accounts);
+  /* SET SECURE */
+  app.use('/secure', app.config.passport.authenticate(), secureRouter);
 };

@@ -3,7 +3,7 @@ const { faker } = require('@faker-js/faker');
 
 const app = require('../../src/app');
 
-const MAIN_ROUTE = '/users';
+const MAIN_ROUTE = '/secure/users';
 
 let user;
 let userFakeData;
@@ -14,12 +14,17 @@ beforeAll(async () => {
     password: faker.internet.password(),
   };
   const resUser = await app.services.user.save(userFakeData);
-  user = { ...resUser };
+  const resAuth = await app.services.auth.signin({
+    email: userFakeData.email,
+    password: userFakeData.password,
+  });
+  user = { ...resUser, ...resAuth };
 });
 
 describe('[USERS][GET]', () => {
   test('[1] - Listar os Utilizadores', () => request(app)
     .get(MAIN_ROUTE)
+    .set('authorization', `bearer ${user.token}`)
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.length).toBeGreaterThan(0);
@@ -36,6 +41,7 @@ describe('[USERS][POST]', () => {
     return request(app)
       .post(MAIN_ROUTE)
       .send(fakeData)
+      .set('authorization', `bearer ${user.token}`)
       .then((res) => {
         expect(res.status).toBe(201);
         expect(res.body.name).toBe(fakeData.name);
@@ -51,6 +57,7 @@ describe('[USERS][POST]', () => {
     return request(app)
       .post(MAIN_ROUTE)
       .send(fakeData)
+      .set('authorization', `bearer ${user.token}`)
       .then((res) => {
         expect(res.status).toBe(400);
         expect(res.body.error).toBe('Nome é um atributo obrigatório!');
@@ -65,6 +72,7 @@ describe('[USERS][POST]', () => {
     return request(app)
       .post(MAIN_ROUTE)
       .send(fakeData)
+      .set('authorization', `bearer ${user.token}`)
       .then((res) => {
         expect(res.status).toBe(400);
         expect(res.body.error).toBe('Email é um atributo obrigatório!');
@@ -79,6 +87,7 @@ describe('[USERS][POST]', () => {
     return request(app)
       .post(MAIN_ROUTE)
       .send(fakeData)
+      .set('authorization', `bearer ${user.token}`)
       .then((res) => {
         expect(res.status).toBe(400);
         expect(res.body.error).toBe('Password é um atributo obrigatório!');
@@ -94,6 +103,7 @@ describe('[USERS][POST]', () => {
     return request(app)
       .post(MAIN_ROUTE)
       .send(fakeData)
+      .set('authorization', `bearer ${user.token}`)
       .then((res) => {
         expect(res.status).toBe(400);
         expect(res.body.error).toBe('Email duplicado na DB!');
@@ -109,6 +119,7 @@ describe('[USERS][POST]', () => {
     return request(app)
       .post(MAIN_ROUTE)
       .send(fakeData)
+      .set('authorization', `bearer ${user.token}`)
       .then(async (res) => {
         expect(res.status).toBe(201);
         const { id } = res.body;

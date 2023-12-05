@@ -3,7 +3,7 @@ const { faker } = require('@faker-js/faker');
 
 const app = require('../../src/app');
 
-const MAIN_ROUTE = '/accounts';
+const MAIN_ROUTE = '/secure/accounts';
 
 let user;
 let account;
@@ -15,7 +15,11 @@ beforeAll(async () => {
     password: faker.internet.password(),
   };
   const resUser = await app.services.user.save(userFakeData);
-  user = { ...resUser };
+  const resAuth = await app.services.auth.signin({
+    email: userFakeData.email,
+    password: userFakeData.password,
+  });
+  user = { ...resUser, ...resAuth };
 
   const accountFakeData = { name: `Account #${Date.now()}`, user_id: user.id };
   const resAccount = await app.services.account.save(accountFakeData);
@@ -28,6 +32,7 @@ describe('[ACCOUNTS][POST]', () => {
     return request(app)
       .post(MAIN_ROUTE)
       .send(fakeData)
+      .set('authorization', `bearer ${user.token}`)
       .then((res) => {
         expect(res.status).toBe(201);
         expect(res.body.name).toBe(fakeData.name);
@@ -39,6 +44,7 @@ describe('[ACCOUNTS][POST]', () => {
     return request(app)
       .post(MAIN_ROUTE)
       .send(fakeData)
+      .set('authorization', `bearer ${user.token}`)
       .then((res) => {
         expect(res.status).toBe(400);
         expect(res.body.error).toBe('Nome é um atributo obrigatório!');
@@ -49,6 +55,7 @@ describe('[ACCOUNTS][POST]', () => {
 describe('[ACCOUNTS][GET]', () => {
   test('[1] - Listar contas', async () => request(app)
     .get(MAIN_ROUTE)
+    .set('authorization', `bearer ${user.token}`)
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.length).toBeGreaterThan(0);
@@ -56,6 +63,7 @@ describe('[ACCOUNTS][GET]', () => {
 
   test('[2] - Lista conta por id', async () => request(app)
     .get(`${MAIN_ROUTE}/${account.id}`)
+    .set('authorization', `bearer ${user.token}`)
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.name).toBe(account.name);
@@ -69,6 +77,7 @@ describe('[ACCOUNTS][PUT]', () => {
     return request(app)
       .put(`${MAIN_ROUTE}/${account.id}`)
       .send(fakeData)
+      .set('authorization', `bearer ${user.token}`)
       .then((res) => {
         expect(res.status).toBe(200);
         expect(res.body.name).toBe(fakeData.name);
@@ -80,6 +89,7 @@ describe('[ACCOUNTS][DELETE]', () => {
   test('[1] - Apagar conta', async () => request(app)
     .delete(`${MAIN_ROUTE}/${account.id}`)
     .send()
+    .set('authorization', `bearer ${user.token}`)
     .then((res) => {
       expect(res.status).toBe(204);
     }));
@@ -87,6 +97,7 @@ describe('[ACCOUNTS][DELETE]', () => {
   test('[2] - Apagar conta inexistente ', async () => request(app)
     .delete(`${MAIN_ROUTE}/${999999999}`)
     .send()
+    .set('authorization', `bearer ${user.token}`)
     .then((res) => {
       expect(res.status).toBe(400);
       expect(res.body.error).toBe('Conta invalida!');

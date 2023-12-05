@@ -34,6 +34,7 @@ app.logger = winston.createLogger({
 });
 
 consign({ cwd: 'src', verbose: false })
+  .include('./config/passport.js')
   .include('./config/middlewares.js')
   .include('./services')
   .include('./routes')
